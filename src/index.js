@@ -3,22 +3,51 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { syncHistoryWithStore, routerReducer, routerMiddleware, push, replace } from 'react-router-redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { firebaseApp } from "./firebase";
+import user from "./reducers/user";
+import items from "./reducers/items";
+import { logIn } from "./actions";
 
-const store = createStore();
+const middleware = routerMiddleware(browserHistory);
+
+const rootReducer = combineReducers({
+    user,
+    items,
+    routing: routerReducer,
+});
+
+export const store = createStore(
+    rootReducer,
+    applyMiddleware(middleware)
+);
+
+const history = syncHistoryWithStore(browserHistory, store);
+
+firebaseApp.auth().onAuthStateChanged(user => {
+    if (user) {
+        // console.log('user log in or sign up', user);
+        const { email } = user;
+        store.dispatch(logIn(email));
+        store.dispatch(push('/app'));
+    } else {
+        // console.log('user sign out or still sign in');
+        store.dispatch(replace('/login'));
+    }
+});
+
 
 document.addEventListener("DOMContentLoaded", function() {
     ReactDOM.render(
         <Provider store={store}>
-            <Router>
-                <div className="container">
-                    <Route exact path="/" component={LogIn}/>
-                    <Route path="/app" component={App}/>
-                    <Route path="/login" component={LogIn}/>
-                    <Route path="/signup" component={SignUp}/>
-                </div>
+            <Router history={history}>
+                <Route exact path="/" component={LogIn} />
+                <Route path="/app" component={App}/>
+                <Route path="/login" component={LogIn}/>
+                <Route path="/signup" component={SignUp}/>
             </Router>
         </Provider>,
         document.getElementById('root')
