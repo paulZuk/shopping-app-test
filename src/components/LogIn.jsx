@@ -29,29 +29,52 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="form-inline">
-                <h2>Log In</h2>
-                <div className="form-group">
-                    <input
-                        className="form-control"
-                        type="text"
-                        placeholder="email"
-                        onChange={e => this.setState({email: e.target.value})}
-                    />
-                    <input
-                        className="form-control"
-                        type="password"
-                        placeholder="password"
-                        onChange={e => this.setState({password: e.target.value})}
-                    />
-                    <button
-                        className="btn btn-success"
-                        type="button"
-                        onClick={() => this.logIn()}
-                    >Log in
-                    </button>
-                    <div>{this.state.error.message}</div>
-                    <div><Link to="signup">Sign Up instead</Link></div>
+            <div className="container">
+                <div className="row">
+                    <div className="form-inline col-sm-8 col-sm-offset-2">
+                        <h2
+                            style={{
+                                textAlign:'center',
+                            }}
+                        >Log In
+                        </h2>
+                        <div
+                            style={{
+                                margin:'20px 18%',
+                            }}
+                            className="form-group">
+                            <input
+                                style={{
+                                    marginRight:'5px',
+                                    marginBottom:'5px'
+                                }}
+                                className="form-control"
+                                type="text"
+                                placeholder="email"
+                                onChange={e => this.setState({email: e.target.value})}
+                            />
+                            <input
+                                style={{
+                                    marginRight :'5px',
+                                    marginBottom:'5px'
+                                }}
+                                className="form-control"
+                                type="password"
+                                placeholder="password"
+                                onChange={e => this.setState({password: e.target.value})}
+                            />
+                            <button
+                                className="btn btn-success"
+                                type="button"
+                                onClick={() => this.logIn()}
+                            >Log in
+                            </button>
+                            <div>{this.state.error.message}</div>
+                            <div style={{paddingTop:'10px'}}>
+                                <Link to="signup">Sign Up instead</Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

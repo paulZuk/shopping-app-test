@@ -24,15 +24,25 @@ class ItemList extends Component {
         return (
             <div className="row">
                 <ul
-                    className="col-sm-8 col-sm-offset-2"
-                    style={{listStyle:'none'}}
+                    className="list-group col-sm-6 col-sm-offset-3"
+                    style={{
+                        listStyle:'none',
+                        paddingLeft:'15px',
+                    }}
                 >
                     {
                         this.props.items.map((elem,index) => {
                             return (
                                 <li
                                     key={index}
+                                    className="list-group-item"
                                 >{elem.item}
+                                    <span style={{float:'right', paddingLeft:'30px'}}>
+                                        X
+                                    </span>
+                                    <span style={{float:'right'}}>
+                                        {elem.email}
+                                    </span>
                                 </li>
                             )
                         })

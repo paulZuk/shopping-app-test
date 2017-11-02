@@ -17,7 +17,7 @@ class AddItem extends Component {
     }
     render() {
         return (
-            <div className="form-group col-sm-8 col-sm-offset-2">
+            <div className="form-group col-sm-4 col-sm-offset-4">
                 <div className="row">
                     <input
                         style={{marginBottom:'5px'}}
