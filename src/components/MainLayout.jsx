@@ -8,7 +8,8 @@ class MainLayout extends Component {
                     <h1
                         style={{
                             textAlign:'center',
-                            marginBottom: '50px'
+                            marginBottom: '50px',
+                            color:"white",
                         }}
                     >
                         Shopping App

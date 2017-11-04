@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <Provider store={store}>
             <Router history={history}>
                 <Route exact path="/" component={MainLayout}>
-                    <IndexRoute component="/login"/>
+                    <IndexRoute component={LogIn}/>
                     <Route path="/app" component={App}/>
                     <Route path="/login" component={LogIn}/>
                     <Route path="/signup" component={SignUp}/>
