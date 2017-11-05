@@ -10,7 +10,7 @@ class App extends Component {
     }
     render() {
         return (
-            <div className="row">
+            <div className="col-xs-12">
                 <div className="row">
                     <AddItem />
                 </div>
@@ -20,6 +20,7 @@ class App extends Component {
                 <div className="row">
                     <button
                         className="btn btn-danger col-sm-offset-4 center-block"
+                        style={{marginBottom:'20px'}}
                         onClick={() => this.logOut()}
                     >Log out
                     </button>

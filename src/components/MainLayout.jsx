@@ -15,9 +15,7 @@ class MainLayout extends Component {
                         Shopping App
                     </h1>
                 </div>
-                <div className="row">
-                    {this.props.children}
-                </div>
+                {this.props.children}
             </div>
         );
     }

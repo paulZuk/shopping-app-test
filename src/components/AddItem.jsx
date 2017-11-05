@@ -13,7 +13,13 @@ class AddItem extends Component {
         const { item } = this.state;
         const { email } = this.props.user;
 
-        firebaseData.push({item,email});
+        firebaseData.push({
+            item,
+            email,
+            finished: false,
+            quantity: 0,
+            qType: "",
+        });
     }
     render() {
         return (
@@ -30,7 +36,7 @@ class AddItem extends Component {
                 <div className="row">
                     <button
                         type="button"
-                        className="btn btn-success col-sm-2 col-sm-offset-5"
+                        className="btn btn-success col-xs-2 col-xs-offset-5"
                         onClick={() => this.addClick()}
                     >Add
                     </button>
@@ -42,7 +48,7 @@ class AddItem extends Component {
 
 function mapStateToProps(state) {
     const { user } = state;
-    console.log('add item', state);
+    // console.log('add item', state);
     return {
         user,
     };
