@@ -3,7 +3,7 @@ import { firebaseData } from "../firebase";
 import * as firebase from 'firebase';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import { setItems } from "../actions";
+import { setItems, markFinished, deleteItem,updateItem } from "../actions";
 
 class ItemList extends Component {
     constructor(props) {
@@ -29,32 +29,30 @@ class ItemList extends Component {
             });
             list.forEach((elem,index) => {
                 elem.id = Object.keys(snapshot.val())[index];
+
             });
             this.props.setItems(list);
         });
     }
 
-    deleteItem(e,id) {
+    deleteFromList(e,id) {
         e.stopPropagation();
+
+        this.props.deleteItem(id);
         firebase.database().ref('items/' + id).remove();
     }
 
     markFinishedToogle(id) {
-
-        console.log(this.props.items);
+        this.props.markFinished(id);
+        
         const { items } = this.props;
 
         items.forEach(item => {
-            if(item.id === id) {
-                if(item.finished){
-                    firebase.database().ref('items/' + id).update({
-                        finished:false
-                    });
-                } else {
-                    firebase.database().ref('items/' + id).update({
-                        finished:true
-                    });
-                }
+            if (item.id === id) {
+                item.finished ? item.finished = true : item.finished = false;
+                firebase.database().ref('items/' + id).update({
+                    finished:item.finished
+                });
             }
         })
     }
@@ -63,18 +61,34 @@ class ItemList extends Component {
         this.setState({
             quantity: e.target.value
         }, () => {
-            firebase.database().ref('items/' + id).update({
-                quantity:this.state.quantity
-            });
+            this.props.updateItem(id, "quantity", this.state.quantity);
+
+            let { items } = this.props;
+
+            items.forEach(item => {
+                if (item.id === id) {
+                    firebase.database().ref('items/' + id).update({
+                        quantity: item.quantity
+                    });
+                }
+            })
         })
     }
     qTypeUpdate(e,id) {
         this.setState({
             qType: e.target.value
         }, () => {
-            firebase.database().ref('items/' + id).update({
-                qType:this.state.qType
-            });
+            this.props.updateItem(id, "qType", this.state.qType);
+
+            let { items } = this.props;
+
+            items.forEach(item => {
+                if (item.id === id) {
+                    firebase.database().ref('items/' + id).update({
+                        qType: item.qType
+                    });
+                }
+            })
         })
     }
 
@@ -84,7 +98,7 @@ class ItemList extends Component {
 
     render() {
         console.log('ItemList props', this.props);
-        console.log('ItemList state', this.state);
+        // console.log('ItemList state', this.state);
         return (
             <div className="row">
                 <ul
@@ -134,13 +148,13 @@ class ItemList extends Component {
 
                                     <span
                                         style={{float:'right', paddingLeft:'30px', cursor:'pointer'}}
-                                        onClick={e => this.deleteItem(e,elem.id)}
+                                        onClick={e => this.deleteFromList(e,elem.id)}
                                     >
                                         X
                                     </span>
 
                                     <span style={{float:'right'}}>
-                                        {elem.email}
+                                        USER: {elem.email.slice(0, elem.email.indexOf('@'))}
                                     </span>
 
                                 </li>
@@ -155,7 +169,7 @@ class ItemList extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ setItems }, dispatch)
+    return bindActionCreators({ setItems, markFinished, deleteItem, updateItem }, dispatch)
 
 }
 

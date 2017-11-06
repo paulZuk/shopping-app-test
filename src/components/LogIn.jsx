@@ -35,6 +35,7 @@ export default class Login extends Component {
                         <h2
                             style={{
                                 textAlign:'center',
+                                color:'white',
                             }}
                         >Log In
                         </h2>
