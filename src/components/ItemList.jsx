@@ -147,14 +147,18 @@ class ItemList extends Component {
                                     />
 
                                     <span
+                                        className="glyphicon glyphicon-remove"
                                         style={{float:'right', paddingLeft:'30px', cursor:'pointer'}}
                                         onClick={e => this.deleteFromList(e,elem.id)}
                                     >
-                                        X
                                     </span>
 
-                                    <span style={{float:'right'}}>
-                                        USER: {elem.email.slice(0, elem.email.indexOf('@'))}
+                                    <span
+                                        style={{float:'right'}}
+                                        className="glyphicon glyphicon-user"
+                                    >
+                                        &nbsp;
+                                        {elem.email.slice(0, elem.email.indexOf('@'))}
                                     </span>
 
                                 </li>
