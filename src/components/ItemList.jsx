@@ -100,73 +100,71 @@ class ItemList extends Component {
         console.log('ItemList props', this.props);
         // console.log('ItemList state', this.state);
         return (
-            <div className="row">
-                <ul
-                    className="list-group col-sm-6 col-sm-offset-3"
-                    style={{
-                        listStyle:'none',
-                        paddingLeft:'15px',
-                    }}
-                >
-                    {
-                        this.props.items.map(elem => {
-                            return (
-                                <li
-                                    key={elem.id}
-                                    className="list-group-item"
-                                    onClick={() => this.markFinishedToogle(elem.id)}
-                                    style={elem.finished? {backgroundColor:'lightgreen'}: {backgroundColor:'white'}}
+            <ul
+                className="list-group col-sm-8"
+                style={{
+                    listStyle:'none',
+                    paddingLeft:'15px',
+                }}
+            >
+                {
+                    this.props.items.map(elem => {
+                        return (
+                            <li
+                                key={elem.id}
+                                className="list-group-item"
+                                onClick={() => this.markFinishedToogle(elem.id)}
+                                style={elem.finished? {backgroundColor:'lightgreen'}: {backgroundColor:'white'}}
+                            >
+                                <h3
+                                    style={elem.finished ? {textDecoration: 'line-through'} : {textDecoration: 'none'}}
                                 >
-                                    <h3
-                                        style={elem.finished ? {textDecoration: 'line-through'} : {textDecoration: 'none'}}
-                                    >
-                                        {elem.item}
-                                    </h3>
+                                    {elem.item}
+                                </h3>
 
-                                    <select
-                                        onClick={e => this.stopPropagation(e)}
-                                        onChange={e => this.qTypeUpdate(e,elem.id)}
-                                        value={elem.qType}
-                                        disabled={elem.finished}
-                                    >
-                                        <option value="pieces">pieces</option>
-                                        <option value="kg">kg</option>
-                                        <option value="g">g</option>
-                                    </select>
+                                <select
+                                    onClick={e => this.stopPropagation(e)}
+                                    onChange={e => this.qTypeUpdate(e,elem.id)}
+                                    value={elem.qType}
+                                    disabled={elem.finished}
+                                >
+                                    <option value="pieces">pieces</option>
+                                    <option value="kg">kg</option>
+                                    <option value="g">g</option>
+                                </select>
 
-                                    <input
-                                        type="text"
-                                        value={elem.quantity}
-                                        style={{
-                                            marginLeft:'2%',
-                                            width:'30px',
-                                        }}
-                                        disabled={elem.finished}
-                                        onClick={e => this.stopPropagation(e)}
-                                        onChange={e => this.quantityUpdate(e,elem.id)}
-                                    />
+                                <input
+                                    type="text"
+                                    value={elem.quantity}
+                                    style={{
+                                        marginLeft:'2%',
+                                        width:'30px',
+                                    }}
+                                    disabled={elem.finished}
+                                    onClick={e => this.stopPropagation(e)}
+                                    onChange={e => this.quantityUpdate(e,elem.id)}
+                                />
 
-                                    <span
-                                        className="glyphicon glyphicon-remove"
-                                        style={{float:'right', paddingLeft:'30px', cursor:'pointer'}}
-                                        onClick={e => this.deleteFromList(e,elem.id)}
-                                    >
-                                    </span>
+                                <span
+                                    className="glyphicon glyphicon-trash"
+                                    style={{float:'right', paddingLeft:'30px', cursor:'pointer'}}
+                                    onClick={e => this.deleteFromList(e,elem.id)}
+                                >
+                                </span>
 
-                                    <span
-                                        style={{float:'right'}}
-                                        className="glyphicon glyphicon-user"
-                                    >
-                                        &nbsp;
-                                        {elem.email.slice(0, elem.email.indexOf('@'))}
-                                    </span>
+                                <span
+                                    style={{float:'right'}}
+                                    className="glyphicon glyphicon-user"
+                                >
+                                    &nbsp;
+                                    {elem.email.slice(0, elem.email.indexOf('@'))}
+                                </span>
 
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
-            </div>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
         );
     }
 

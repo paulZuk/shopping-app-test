@@ -13,12 +13,14 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { firebaseApp } from "./firebase";
 import user from "./reducers/user";
 import items from "./reducers/items";
+import lists from "./reducers/lists";
 import { logIn } from "./actions";
 
 const middleware = routerMiddleware(browserHistory);
 
 const rootReducer = combineReducers({
     user,
+    lists,
     items,
     routing: routerReducer,
 });

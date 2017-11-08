@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebaseData } from '../firebase';
 import { connect } from 'react-redux';
+import * as firebase from 'firebase';
 
 class AddItem extends Component {
     constructor(props) {
@@ -23,23 +24,27 @@ class AddItem extends Component {
     }
     render() {
         return (
-            <div className="form-group col-sm-4 col-sm-offset-4">
+            <div className="form-group form-inline col-sm-8">
                 <div className="row">
-                    <input
-                        style={{marginBottom:'5px'}}
-                        className="form-control"
-                        type="text"
-                        placeholder="item's name"
-                        onChange={e => this.setState({item: e.target.value})}
-                    />
-                </div>
-                <div className="row">
-                    <button
-                        type="button"
-                        className="btn btn-success col-xs-2 col-xs-offset-5"
-                        onClick={() => this.addClick()}
-                    >Add
-                    </button>
+                    <div className="col-sm-7">
+                        <input
+                            style={{width:'100%'}}
+                            className="form-control"
+                            type="text"
+                            placeholder="Item's name"
+                            onChange={e => this.setState({item: e.target.value})}
+                        />
+                    </div>
+                    <div className="col-sm-5">
+                        <button
+                            type="button"
+                            style={{width:'100%'}}
+                            className="btn btn-primary
+                            "
+                            onClick={() => this.addClick()}
+                        >Add item
+                        </button>
+                    </div>
                 </div>
             </div>
         );

@@ -1,4 +1,4 @@
-import {LOG_IN, ITEM_LIST, MARK_FINISHED, DELETE_ITEM, UPDATE_ITEM} from "../constants";
+import {LOG_IN, ITEM_LIST, MARK_FINISHED, DELETE_ITEM, UPDATE_ITEM, SET_LISTS, MARK_ACTIVE_LIST} from "../constants";
 
 export const logIn = email => {
     const action = {
@@ -37,7 +37,23 @@ export const updateItem = (id, key, val) => {
         type: UPDATE_ITEM,
         id,
         key,
-        val
+        val,
+    };
+    return action;
+};
+
+export const setLists = lists => {
+    const action = {
+        type: SET_LISTS,
+        lists,
+    };
+    return action;
+};
+
+export const markActiveList = id => {
+    const action = {
+        type: MARK_ACTIVE_LIST,
+        id,
     };
     return action;
 };
