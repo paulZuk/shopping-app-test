@@ -7,5 +7,5 @@ export const UPDATE_ITEM = "UPDATE_ITEM";
 
 export const SET_LISTS = "SET_LISTS";
 export const MARK_ACTIVE_LIST = "MARK_ACTIVE_LIST";
-
+export const DELETE_LIST = "DELETELIST";
 export const FB_LIST_NAME = "FB_LIST_NAME";

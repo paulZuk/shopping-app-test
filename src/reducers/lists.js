@@ -1,4 +1,4 @@
-import {MARK_ACTIVE_LIST, SET_LISTS} from "../constants";
+import {DELETE_LIST, MARK_ACTIVE_LIST, SET_LISTS} from "../constants";
 
 export default (state =[], action) => {
     switch (action.type){
@@ -16,6 +16,12 @@ export default (state =[], action) => {
                 }
                 return list;
             });
+            return newState;
+        case DELETE_LIST:
+            newState =
+                state.filter(list => {
+                    return list.name !== action.list
+                });
             return newState;
         default:
             return state;

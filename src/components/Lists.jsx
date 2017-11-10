@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setLists, markActiveList, setListName } from "../actions/index";
+import { setLists, markActiveList, setListName, deleteList } from "../actions/index";
 
 class Lists extends Component {
 
@@ -20,8 +20,13 @@ class Lists extends Component {
                 this.props.setListName(elem.name)
             }
         })
-
-        
+    }
+    
+    deleteList(e,name) {
+        e.stopPropagation();
+        this.props.setListName("");
+        this.props.deleteList(name);
+        firebase.database().ref('lists/' + name).remove();
     }
 
     render() {
@@ -39,10 +44,25 @@ class Lists extends Component {
                         return (
                             <li
                                 key={list.id}
+                                style={{cursor:'pointer'}}
                                 className={`list-group-item ${ list.active && 'active'}`}
                                 onClick={() => this.markActive(list.id,list.name)}
 
-                            >{list.name}
+                            >
+                                {list.name}
+                                <span
+                                    className="glyphicon glyphicon-trash"
+                                    style={{float:'right', paddingLeft:'30px', cursor:'pointer'}}
+                                    onClick={e => this.deleteList(e, list.name)}
+                                >
+                                </span>
+                                <span
+                                    style={{float:'right'}}
+                                    className="glyphicon glyphicon-user"
+                                >
+                                    &nbsp;
+                                    {list.user.slice(0, list.user.indexOf('@'))}
+                                </span>
                             </li>
                         )
                     })
@@ -53,7 +73,7 @@ class Lists extends Component {
 }
 
 function mapDispatchToProps(dispatch){
-    return bindActionCreators({ setLists, markActiveList, setListName }, dispatch);
+    return bindActionCreators({ setLists, markActiveList, setListName, deleteList }, dispatch);
 }
 
 function mapStateToProps(state) {

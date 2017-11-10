@@ -8,6 +8,7 @@ import AddList from "./AddList";
 import * as firebase from 'firebase';
 import { bindActionCreators } from 'redux';
 import { setLists, setListName, setItems } from "../actions/index";
+import firebaseRef from "../reducers/firebaseRef";
 
 
 class App extends Component {
@@ -52,13 +53,17 @@ class App extends Component {
                 <div className="row">
                     <button
                         className="btn btn-danger center-block"
+                        style={{margin: '20px auto'}}
                         onClick={() => this.logOut()}
                     >Log out
                     </button>
                 </div>
                 <div className="row">
                     <div>
-                        <h2 style={{textAlign:'center', color:'white', marginBottom:'30px'}}>{this.props.firebaseRef}</h2>
+                        <h2 style={{textAlign:'center', color:'white', marginBottom:'30px'}}
+                        >
+                            {this.props.firebaseRef !== ""? this.props.firebaseRef : "Choose list"}
+                        </h2>
                     </div>
                 </div>
                 <div className="row">

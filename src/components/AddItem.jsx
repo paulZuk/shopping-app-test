@@ -24,6 +24,8 @@ class AddItem extends Component {
             quantity: 0,
             qType: "",
         });
+
+        this.itemName.value = '';
     }
     render() {
         return (
@@ -34,6 +36,7 @@ class AddItem extends Component {
                             style={{width:'100%'}}
                             className="form-control"
                             type="text"
+                            ref={el => this.itemName = el}
                             placeholder="Item's name"
                             onChange={e => this.setState({item: e.target.value})}
                         />

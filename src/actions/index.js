@@ -1,5 +1,5 @@
 import {
-    LOG_IN, ITEM_LIST, MARK_FINISHED, DELETE_ITEM, UPDATE_ITEM, SET_LISTS, MARK_ACTIVE_LIST, FB_LIST_NAME
+    LOG_IN, ITEM_LIST, MARK_FINISHED, DELETE_ITEM, UPDATE_ITEM, SET_LISTS, MARK_ACTIVE_LIST, FB_LIST_NAME, DELETE_LIST
 } from "../constants";
 
 export const logIn = email => {
@@ -65,4 +65,12 @@ export const setListName = listName => {
         listName,
     };
     return action;
+};
+
+export const deleteList = list => {
+    const action = {
+        type:DELETE_LIST,
+        list
+    };
+    return action
 };

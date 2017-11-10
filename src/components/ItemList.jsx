@@ -104,6 +104,14 @@ class ItemList extends Component {
             >
                 {
                     items.map(elem => {
+                        let h3style = {
+                            marginTop:'0',
+                            padding:'5px 0'
+                        };
+                        elem.finished ?
+                            Object.assign(h3style, {textDecoration: 'line-through'})
+                            : Object.assign(h3style, {textDecoration: 'none'});
+
                         return (
                             <li
                                 key={elem.id}
@@ -112,7 +120,7 @@ class ItemList extends Component {
                                 style={elem.finished? {backgroundColor:'lightgreen'}: {backgroundColor:'white'}}
                             >
                                 <h3
-                                    style={elem.finished ? {textDecoration: 'line-through'} : {textDecoration: 'none'}}
+                                    style={h3style}
                                 >
                                     {elem.item}
                                 </h3>

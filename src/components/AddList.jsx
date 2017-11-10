@@ -12,6 +12,7 @@ class AddList extends Component {
 
     addList() {
         const { email } = this.props.user;
+
         firebase.database().ref("lists/" + this.state.list).set({
             id: Math.random(),
             name: this.state.list,
@@ -19,6 +20,8 @@ class AddList extends Component {
             active: false,
             items:[]
         });
+
+       this.nameList.value = "";
     }
 
     render() {
@@ -30,6 +33,7 @@ class AddList extends Component {
                             style={{width:'100%'}}
                             className="form-control"
                             type="text"
+                            ref={el => this.nameList = el}
                             placeholder="List's name"
                             onChange={e => this.setState({list: e.target.value})}
                         />
