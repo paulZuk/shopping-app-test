@@ -2,41 +2,33 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setLists, markActiveList } from "../actions/index";
+import { setLists, markActiveList, setListName } from "../actions/index";
 
 class Lists extends Component {
-    
-    componentDidMount() {
-        let data = firebase.database().ref('lists');
-        data.on('value', snapshot => {
-            let list = [];
-            snapshot.forEach(elem => {
-                list.push({
-                    name: elem.val().name,
-                    user: elem.val().user,
-                    id: elem.val().id,
-                    active: elem.val().active,
-                });
-            });
-            this.props.setLists(list);
-
-        });
-    }
 
     markActive(id) {
         this.props.markActiveList(id);
-        console.log('markactive', this.props.lists);
+        // console.log('markactive', this.props.lists);
 
         this.props.lists.forEach(elem => {
+            
             firebase.database().ref('lists/' + elem.name).update({
                 active: elem.active
             });
+            
+            if(elem.id === id) {
+                this.props.setListName(elem.name)
+            }
         })
 
         
     }
 
     render() {
+        if(this.props.firebaseRef === null|| this.props.lists.length === 0){
+            return null;
+        }
+        console.log('LIST PROPS', this.props);
         return (
             <ul
                 className="list-group col-sm-4"
@@ -61,13 +53,15 @@ class Lists extends Component {
 }
 
 function mapDispatchToProps(dispatch){
-    return bindActionCreators({ setLists, markActiveList }, dispatch);
+    return bindActionCreators({ setLists, markActiveList, setListName }, dispatch);
 }
 
 function mapStateToProps(state) {
-    const { lists } = state;
+    // console.log('LIST STATE', state);
+    const { lists, firebaseRef } = state;
     return {
         lists,
+        firebaseRef,
     }
 }
 

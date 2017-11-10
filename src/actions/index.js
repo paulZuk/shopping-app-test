@@ -1,4 +1,6 @@
-import {LOG_IN, ITEM_LIST, MARK_FINISHED, DELETE_ITEM, UPDATE_ITEM, SET_LISTS, MARK_ACTIVE_LIST} from "../constants";
+import {
+    LOG_IN, ITEM_LIST, MARK_FINISHED, DELETE_ITEM, UPDATE_ITEM, SET_LISTS, MARK_ACTIVE_LIST, FB_LIST_NAME
+} from "../constants";
 
 export const logIn = email => {
     const action = {
@@ -54,6 +56,13 @@ export const markActiveList = id => {
     const action = {
         type: MARK_ACTIVE_LIST,
         id,
+    };
+    return action;
+};
+export const setListName = listName => {
+    const action = {
+        type: FB_LIST_NAME,
+        listName,
     };
     return action;
 };

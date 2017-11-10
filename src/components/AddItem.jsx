@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { firebaseData } from '../firebase';
 import { connect } from 'react-redux';
 import * as firebase from 'firebase';
 
@@ -7,15 +6,19 @@ class AddItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: ""
+            item: "",
         }
     }
     addClick() {
         const { item } = this.state;
         const { email } = this.props.user;
+        const { firebaseRef } = this.props;
 
-        firebaseData.push({
+        let id = Math.floor(Math.random()*100000);
+
+        firebase.database().ref('lists/' + firebaseRef + "/items/" + id).set({
             item,
+            id: id,
             email,
             finished: false,
             quantity: 0,
@@ -52,10 +55,11 @@ class AddItem extends Component {
 }
 
 function mapStateToProps(state) {
-    const { user } = state;
+    const { user, firebaseRef } = state;
     // console.log('add item', state);
     return {
         user,
+        firebaseRef
     };
 }
 

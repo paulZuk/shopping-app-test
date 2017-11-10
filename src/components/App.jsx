@@ -5,17 +5,60 @@ import AddItem from './AddItem';
 import ItemList from './ItemList';
 import Lists from "./Lists";
 import AddList from "./AddList";
+import * as firebase from 'firebase';
+import { bindActionCreators } from 'redux';
+import { setLists, setListName, setItems } from "../actions/index";
+
 
 class App extends Component {
     logOut() {
         firebaseApp.auth().signOut();
     }
+
+    componentDidMount() {
+        this.getLists();
+    }
+
+    getLists() {
+        let data = firebase.database().ref('lists');
+        data.on('value', snapshot => {
+            let list = [];
+            snapshot.forEach(elem => {
+                // console.log(elem.val());
+                list.push({
+                    name: elem.val().name,
+                    user: elem.val().user,
+                    id: elem.val().id,
+                    active: elem.val().active,
+                    items: elem.val().items
+                });
+            });
+            list.forEach(list => {
+                if(list.active) {
+                    this.props.setListName(list.name);
+
+                    if( typeof list.items !== "undefined") {
+                        this.props.setItems(Object.values(list.items));
+                    }
+                }
+            });
+            this.props.setLists(list);
+        });
+    }
+
     render() {
         return (
             <div className="col-xs-12">
                 <div className="row">
-                    <div className="col-sm-8 col-sm-offset-4">
-                        <h2 style={{textAlign:'center', color:'white'}}>List 1</h2>
+                    <button
+                        className="btn btn-danger center-block"
+                        onClick={() => this.logOut()}
+                    >Log out
+                    </button>
+                </div>
+                <div className="row">
+                    <div>
+                        <h2 style={{textAlign:'center', color:'white', marginBottom:'30px'}}>{this.props.firebaseRef}</h2>
                     </div>
                 </div>
                 <div className="row">
@@ -26,23 +69,23 @@ class App extends Component {
                     <Lists />
                     <ItemList />
                 </div>
-                <div className="row">
-                    <button
-                        className="btn btn-danger "
-                        style={{marginBottom:'20px'}}
-                        onClick={() => this.logOut()}
-                    >Log out
-                    </button>
-                </div>
             </div>
         );
     }
 }
 
 function mapStateToProps(state) {
-    // console.log('state', state);
-    return {};
+    const { lists, firebaseRef }  = state;
+    // console.log(state);
+    return {
+        lists,
+        firebaseRef
+    };
 
 }
 
-export default connect(mapStateToProps, null)(App);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ setLists, setListName, setItems }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

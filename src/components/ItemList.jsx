@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { firebaseData } from "../firebase";
 import * as firebase from 'firebase';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -10,47 +9,28 @@ class ItemList extends Component {
         super(props);
         this.state = {
             qType: "",
-            quantity: 0
+            quantity: 0,
         }
-    }
-
-
-    componentDidMount() {
-        firebaseData.on('value', snapshot => {
-            let list = [];
-            snapshot.forEach(elem => {
-                list.push({
-                    email: elem.val().email,
-                    item: elem.val().item,
-                    finished: elem.val().finished,
-                    quantity: elem.val().quantity,
-                    qType: elem.val().qType
-                });
-            });
-            list.forEach((elem,index) => {
-                elem.id = Object.keys(snapshot.val())[index];
-
-            });
-            this.props.setItems(list);
-        });
     }
 
     deleteFromList(e,id) {
         e.stopPropagation();
 
-        this.props.deleteItem(id);
-        firebase.database().ref('items/' + id).remove();
+        const { firebaseRef, deleteItem } = this.props;
+
+        deleteItem(id);
+        firebase.database().ref('lists/' + firebaseRef + '/items/' + id).remove();
     }
 
     markFinishedToogle(id) {
         this.props.markFinished(id);
         
-        const { items } = this.props;
+        const { items, firebaseRef } = this.props;
 
         items.forEach(item => {
             if (item.id === id) {
                 item.finished ? item.finished = true : item.finished = false;
-                firebase.database().ref('items/' + id).update({
+                firebase.database().ref('lists/' + firebaseRef + '/items/' + id).update({
                     finished:item.finished
                 });
             }
@@ -63,11 +43,11 @@ class ItemList extends Component {
         }, () => {
             this.props.updateItem(id, "quantity", this.state.quantity);
 
-            let { items } = this.props;
+            let { items, firebaseRef } = this.props;
 
             items.forEach(item => {
                 if (item.id === id) {
-                    firebase.database().ref('items/' + id).update({
+                    firebase.database().ref('lists/' + firebaseRef + '/items/' + id).update({
                         quantity: item.quantity
                     });
                 }
@@ -80,11 +60,11 @@ class ItemList extends Component {
         }, () => {
             this.props.updateItem(id, "qType", this.state.qType);
 
-            let { items } = this.props;
+            let { items,firebaseRef } = this.props;
 
             items.forEach(item => {
                 if (item.id === id) {
-                    firebase.database().ref('items/' + id).update({
+                    firebase.database().ref('lists/' + firebaseRef + '/items/' + id).update({
                         qType: item.qType
                     });
                 }
@@ -97,8 +77,23 @@ class ItemList extends Component {
     }
 
     render() {
-        console.log('ItemList props', this.props);
+        // console.log('ItemList props', this.props);
         // console.log('ItemList state', this.state);
+        let lists = Object.values(this.props.lists);
+        let items = [];
+
+        lists.forEach(list => {
+            if(list.active) {
+                if(typeof list.items !== "undefined"){
+                    items = Object.values(list.items);
+                }
+            }
+        });
+
+        if(typeof items === "undefined"){
+            return null
+        }
+
         return (
             <ul
                 className="list-group col-sm-8"
@@ -108,7 +103,7 @@ class ItemList extends Component {
                 }}
             >
                 {
-                    this.props.items.map(elem => {
+                    items.map(elem => {
                         return (
                             <li
                                 key={elem.id}
@@ -177,8 +172,11 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     // console.log('item list props',state);
+    const { firebaseRef,lists } = state;
     return {
-        items: state.items
+        items: state.items,
+        firebaseRef,
+        lists
     }
 }
 

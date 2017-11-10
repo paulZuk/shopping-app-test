@@ -1,4 +1,4 @@
-import { MARK_ACTIVE_LIST, SET_LISTS } from "../constants";
+import {MARK_ACTIVE_LIST, SET_LISTS} from "../constants";
 
 export default (state =[], action) => {
     switch (action.type){
