@@ -8,7 +8,6 @@ import AddList from "./AddList";
 import * as firebase from 'firebase';
 import { bindActionCreators } from 'redux';
 import { setLists, setListName, setItems } from "../actions/index";
-import firebaseRef from "../reducers/firebaseRef";
 
 
 class App extends Component {
