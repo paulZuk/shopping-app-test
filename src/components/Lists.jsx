@@ -33,7 +33,7 @@ class Lists extends Component {
         if(this.props.firebaseRef === null|| this.props.lists.length === 0){
             return null;
         }
-        console.log('LIST PROPS', this.props);
+        // console.log('LIST PROPS', this.props);
         return (
             <ul
                 className="list-group col-sm-4"

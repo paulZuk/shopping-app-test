@@ -79,18 +79,8 @@ class ItemList extends Component {
     render() {
         // console.log('ItemList props', this.props);
         // console.log('ItemList state', this.state);
-        let lists = Object.values(this.props.lists);
-        let items = [];
 
-        lists.forEach(list => {
-            if(list.active) {
-                if(typeof list.items !== "undefined"){
-                    items = Object.values(list.items);
-                }
-            }
-        });
-
-        if(typeof items === "undefined"){
+        if(typeof this.props.items === "undefined"){
             return null
         }
 
@@ -103,7 +93,7 @@ class ItemList extends Component {
                 }}
             >
                 {
-                    items.map(elem => {
+                    this.props.items.map(elem => {
                         let h3style = {
                             marginTop:'0',
                             padding:'5px 0'

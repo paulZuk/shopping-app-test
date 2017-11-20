@@ -24,6 +24,7 @@ class App extends Component {
         let data = firebase.database().ref('lists');
         data.on('value', snapshot => {
             let list = [];
+            console.log(snapshot.val());
             snapshot.forEach(elem => {
                 // console.log(elem.val());
                 list.push({
@@ -34,6 +35,7 @@ class App extends Component {
                     items: elem.val().items
                 });
             });
+
             list.forEach(list => {
                 if(list.active) {
                     this.props.setListName(list.name);
