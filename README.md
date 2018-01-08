@@ -16,4 +16,7 @@ and to start...
 
 ```npm start```
 
-Example: <a href="http://k4mpain.ddns.net/list"> Test</a>
+login: test@test.com
+password: test123
+
+Example: <a href="http://k4mpain.ddns.net/shopping"> Test</a>
