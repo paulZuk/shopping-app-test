@@ -28,10 +28,15 @@ export default class Login extends Component {
 
 
     render() {
+        const inputStyle = {
+            marginRight:'5px',
+            marginBottom:'10px',
+            width:'90%'
+        };
         return (
             <div className="container">
-                <div className="row">
-                    <div className="form-inline col-sm-8 col-sm-offset-2">
+                <div className="row justify-content-center">
+                    <div className="col-sm-8">
                         <h2
                             style={{
                                 textAlign:'center',
@@ -43,37 +48,35 @@ export default class Login extends Component {
                             style={{
                                 margin:'20px 18%',
                             }}
-                            className="form-group">
+                            className="d-flex justify-content-center align-items-center flex-column ">
                             <input
-                                style={{
-                                    marginRight:'5px',
-                                    marginBottom:'5px'
-                                }}
+                                style={inputStyle}
                                 className="form-control"
                                 type="text"
                                 placeholder="email"
                                 onChange={e => this.setState({email: e.target.value})}
                             />
                             <input
-                                style={{
-                                    marginRight :'5px',
-                                    marginBottom:'5px'
-                                }}
+                                style={inputStyle}
                                 className="form-control"
                                 type="password"
                                 placeholder="password"
                                 onChange={e => this.setState({password: e.target.value})}
                             />
                             <button
+                                style={{width: '30%', marginBottom: '10px'}}
                                 className="btn btn-success"
                                 type="button"
                                 onClick={() => this.logIn()}
                             >Log in
                             </button>
                             <div>{this.state.error.message}</div>
-                            <div style={{paddingTop:'10px'}}>
-                                <Link to="signup">Sign Up instead</Link>
-                            </div>
+                            <button
+                                className='btn btn-danger'
+                                style={{width: '30%'}}
+                            >Sign up ?
+
+                            </button>
                         </div>
                     </div>
                 </div>
