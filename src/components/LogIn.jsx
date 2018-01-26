@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import { firebaseApp } from "../firebase";
 
 
@@ -26,17 +25,30 @@ export default class Login extends Component {
             });
     }
 
+    signUp() {
+
+    }
+
 
     render() {
         const inputStyle = {
             marginRight:'5px',
             marginBottom:'10px',
-            width:'90%'
         };
         return (
             <div className="container">
                 <div className="row justify-content-center">
-                    <div className="col-sm-8">
+                    <div className="col-12 col-sm-10 col-md-8 col-lg-6">
+                        <h1
+                            style={{
+                                textAlign:'center',
+                                fontSize:'50px',
+                                marginBottom:'50px',
+                                paddingTop: '100px',
+                                color: 'white',
+                            }}
+                        >Shopping App
+                        </h1>
                         <h2
                             style={{
                                 textAlign:'center',
@@ -53,18 +65,18 @@ export default class Login extends Component {
                                 style={inputStyle}
                                 className="form-control"
                                 type="text"
-                                placeholder="email"
+                                placeholder="E-mail"
                                 onChange={e => this.setState({email: e.target.value})}
                             />
                             <input
-                                style={inputStyle}
+                                style={{...inputStyle, marginBottom:'50px'}}
                                 className="form-control"
                                 type="password"
-                                placeholder="password"
+                                placeholder="Password"
                                 onChange={e => this.setState({password: e.target.value})}
                             />
                             <button
-                                style={{width: '30%', marginBottom: '10px'}}
+                                style={{width: '40%', marginBottom: '10px'}}
                                 className="btn btn-success"
                                 type="button"
                                 onClick={() => this.logIn()}
@@ -72,8 +84,9 @@ export default class Login extends Component {
                             </button>
                             <div>{this.state.error.message}</div>
                             <button
-                                className='btn btn-danger'
-                                style={{width: '30%'}}
+                                className='btn btn-primary'
+                                style={{width: '40%'}}
+                                onClick={() => this.signUp()}
                             >Sign up ?
 
                             </button>
